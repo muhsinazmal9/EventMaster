@@ -14,3 +14,14 @@ Route::get('/users', function (Request $request) {
         'data' => UserResource::collection($users),
     ]);
 });
+
+Route::get('events', function (Request $request) {
+    $events = \App\Models\Event::all();
+
+    return response()->json([
+        'message' => 'Events retrieved successfully.',
+        'success' => true,
+        'status' => 200,
+        'data' => \App\Http\Resources\EventResource::collection($events),
+    ]);
+});
