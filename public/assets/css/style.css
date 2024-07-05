@@ -1,0 +1,34 @@
+.navbar {
+    --bs-navbar-padding-y: 0.75rem;
+}
+.navbar-nav {
+    --bs-navbar-nav-link-padding-x: 1rem;
+}
+.nav-item {
+    display: flex;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+#hero_section {
+    padding: 3rem 0;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+}
+
+@media screen and (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+

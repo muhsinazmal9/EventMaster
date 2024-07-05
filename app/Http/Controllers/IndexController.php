@@ -11,6 +11,6 @@ class IndexController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('index');
+        return view('frontend.index');
     }
 }
