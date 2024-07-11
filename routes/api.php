@@ -1,27 +1,28 @@
 <?php
 
-use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\LoginController;
 
-Route::get('/users', function (Request $request) {
-    $users = \App\Models\User::all();
+// Authentication routes
+Route::post('login', [LoginController::class, 'login']);
+Route::post('register', [LoginController::class, 'register']);
 
-    return response()->json([
-        'message' => 'Users retrieved successfully.',
-        'success' => true,
-        'status' => 200,
-        'data' => UserResource::collection($users),
-    ]);
-});
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    // User routes
+    Route::get('user', function (Request $request) {
+        return success('User retrieved successfully', new UserResource($request->user()));
+    });
 
-Route::get('events', function (Request $request) {
-    $events = \App\Models\Event::all();
+    // Logout route
+    Route::post('logout', [LoginController::class, 'logout']);
 
-    return response()->json([
-        'message' => 'Events retrieved successfully.',
-        'success' => true,
-        'status' => 200,
-        'data' => \App\Http\Resources\EventResource::collection($events),
-    ]);
+    // Event routes
+    Route::get('events', [EventController::class, 'getEvents']);
+    Route::get('events/{id}', [EventController::class, 'getEvent']);
+    Route::post('events', [EventController::class, 'createEvent']);
+    Route::put('events/{id}', [EventController::class, 'updateEvent']);
+    Route::delete('events/{id}', [EventController::class, 'deleteEvent']);
 });

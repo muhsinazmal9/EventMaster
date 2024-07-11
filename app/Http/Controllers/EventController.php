@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 
@@ -11,9 +12,10 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $events = Event::get(['id', 'title', 'description', 'date', 'location']);
+        return view('frontend.events.index', compact('events'));
     }
 
     /**
@@ -63,4 +65,37 @@ class EventController extends Controller
     {
         //
     }
+
+    public function handleAjaxRequest(Request $request)
+    {
+        $eventData = [
+            'title' => $request->title,
+            'start' => $request->start,
+            'end' => $request->end,
+        ];
+
+        switch ($request->type) {
+            case 'add':
+                $event = Event::create($eventData);
+                $message = 'Event added successfully';
+                break;
+
+            case 'update':
+                $event = Event::find($request->id)->update($eventData);
+                $message = 'Event updated successfully';
+                break;
+
+            case 'delete':
+                Event::destroy($request->id);
+                $event = null;
+                $message = 'Event deleted successfully';
+                break;
+
+            default:
+                return error('Invalid request type', status: 400);
+        }
+
+        return success($message, $event);
+    }
+
 }

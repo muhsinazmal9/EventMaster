@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>EventMaster</title>
 
     {{-- Favicon --}}
@@ -51,6 +52,7 @@
     <script src="{{ asset('assets') }}/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets') }}/js/script.js"></script>
 
+    {{-- Stack scripts --}}
     @stack('scripts')
 </body>
 
